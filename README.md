@@ -32,11 +32,11 @@ python3 -m venv .venv
 uv sync
 ./.venv/bin/python app.py
 ```
-*(The server will initialize the policy database and listen on `http://127.0.0.1:5000`)*
+*(The server will initialize the policy database and listen on `http://127.0.0.1:5001`)*
 
 ### Open the Application
 Open your browser and navigate to:
-👉 **[http://127.0.0.1:5000](http://127.0.0.1:5000)**
+👉 **[http://127.0.0.1:5001](http://127.0.0.1:5001)**
 
 ---
 
