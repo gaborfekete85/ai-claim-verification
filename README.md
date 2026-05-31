@@ -22,10 +22,14 @@ The application runs locally on a lightweight Flask backend and handles document
 
 ### Prerequisites
 Make sure you are inside the project's root directory:
+ - Rename the config.example.json to config.json
+ - Replace the API key in the config.json file with your own API key.
 
 ### Run the Server
 Launch the Flask backend server using the project's pre-configured virtual environment:
 ```bash
+python3 -m venv .venv
+uv sync
 ./.venv/bin/python app.py
 ```
 *(The server will initialize the policy database and listen on `http://127.0.0.1:5000`)*
