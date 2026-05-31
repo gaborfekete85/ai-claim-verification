@@ -1,0 +1,20 @@
+# Ignore configuration containing API keys and bases
+config.json
+
+# Ignore temporary claim files used for agent processing
+temp_claim.json
+ema.json
+ema2.json
+
+# Ignore virtual environments
+.venv/
+venv/
+ENV/
+
+# Python caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local ChromaDB cache files (if any are saved to disk)
+.chroma/

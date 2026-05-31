@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Claims Processing Center</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* HSL tailored color palette */
+            --bg-color: hsl(224, 25%, 8%);
+            --panel-bg: hsla(224, 20%, 14%, 0.4);
+            --border-color: hsla(224, 15%, 25%, 0.4);
+            --text-main: hsl(220, 15%, 90%);
+            --text-muted: hsl(220, 10%, 65%);
+            
+            --primary: hsl(262, 80%, 60%);
+            --primary-glow: hsla(262, 80%, 60%, 0.4);
+            --primary-hover: hsl(262, 85%, 65%);
+            
+            --success: hsl(142, 70%, 45%);
+            --success-glow: hsla(142, 70%, 45%, 0.3);
+            --danger: hsl(0, 75%, 50%);
+            --danger-glow: hsla(0, 75%, 50%, 0.3);
+            --warning: hsl(38, 90%, 50%);
+            --warning-glow: hsla(38, 90%, 50%, 0.3);
+
+            --terminal-bg: hsl(224, 25%, 5%);
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(262, 80%, 60%, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(142, 70%, 45%, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            background-color: hsla(142, 70%, 45%, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 10px var(--success-glow);
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-premium);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            border-color: hsla(262, 80%, 60%, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Toggle Switches */
+        .toggle-container {
+            background-color: hsl(224, 25%, 5%);
+            border: 1px solid var(--border-color);
+            padding: 4px;
+            border-radius: 24px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Forms */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            background-color: hsl(224, 25%, 5%);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* JSON Textarea */
+        .json-editor {
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            height: 350px;
+            resize: none;
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--border-color);
+            color: #a9b2c3;
+        }
+
+        /* Action Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), hsl(262, 80%, 50%));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px var(--primary-glow);
+            background: linear-gradient(135deg, var(--primary-hover), var(--primary));
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Right Panel States */
+        .state-container {
+            display: none;
+            flex-direction: column;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .state-container.active {
+            display: flex;
+        }
+
+        /* Idle State */
+        .idle-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            min-height: 400px;
+            gap: 20px;
+        }
+
+        .idle-icon {
+            width: 80px;
+            height: 80px;
+            background: hsla(262, 80%, 60%, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--primary);
+            border: 1px solid hsla(262, 80%, 60%, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .idle-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .idle-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 300px;
+            line-height: 1.5;
+        }
+
+        /* Loading State */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: 100%;
+        }
+
+        /* Agent Stepper */
+        .stepper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            background-color: hsla(224, 20%, 14%, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .step.active {
+            border-color: var(--primary);
+            background-color: hsla(262, 80%, 60%, 0.05);
+            box-shadow: 0 0 15px hsla(262, 80%, 60%, 0.1);
+        }
+
+        .step.completed {
+            border-color: var(--success);
+            background-color: hsla(142, 70%, 45%, 0.05);
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .step.active .step-icon {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: hsla(262, 80%, 60%, 0.1);
+        }
+
+        .step.completed .step-icon {
+            border-color: var(--success);
+            color: var(--success);
+            background-color: hsla(142, 70%, 45%, 0.1);
+        }
+
+        .step-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .step.active .step-title {
+            color: white;
+        }
+
+        .step.completed .step-title {
+            color: var(--text-main);
+        }
+
+        .step-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Results dashboard */
+        .results-state {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Main Decision Card */
+        .decision-card {
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .decision-card.approved {
+            background: linear-gradient(135deg, hsla(142, 70%, 45%, 0.08), hsla(142, 70%, 25%, 0.05));
+            border: 1px solid var(--success);
+            box-shadow: 0 0 30px var(--success-glow);
+        }
+
+        .decision-card.denied {
+            background: linear-gradient(135deg, hsla(0, 75%, 50%, 0.08), hsla(0, 75%, 25%, 0.05));
+            border: 1px solid var(--danger);
+            box-shadow: 0 0 30px var(--danger-glow);
+        }
+
+        .decision-badge-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .decision-badge {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .decision-card.approved .decision-badge {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .decision-card.denied .decision-badge {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Grid metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .metric-item {
+            background-color: hsla(224, 25%, 5%, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Explanatory notes */
+        .explanation-section {
+            background-color: hsla(224, 25%, 5%, 0.3);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .decision-card.approved .explanation-section {
+            border-left-color: var(--success);
+        }
+
+        .decision-card.denied .explanation-section {
+            border-left-color: var(--danger);
+        }
+
+        /* Monospace Thought Terminal */
+        .terminal-container {
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .terminal-header {
+            background-color: hsl(224, 25%, 10%);
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: hsl(0, 75%, 50%); }
+        .dot-yellow { background-color: hsl(38, 90%, 50%); }
+        .dot-green { background-color: hsl(142, 70%, 45%); }
+
+        .terminal-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .terminal-copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .terminal-copy-btn:hover {
+            color: white;
+        }
+
+        .terminal-body {
+            background-color: var(--terminal-bg);
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #d1d5db;
+            white-space: pre-wrap;
+        }
+
+        /* Custom Scrollbar for Terminal */
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: var(--terminal-bg);
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: hsl(224, 15%, 25%);
+            border-radius: 4px;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid hsla(262, 80%, 60%, 0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title-container">
+            <div class="logo-icon">C</div>
+            <h1>Agentic Claims Processing Center</h1>
+        </div>
+        <div class="status-badge">
+            <div class="status-pulse"></div>
+            <span>RAG Agent Online</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Column: Submit claim / Form -->
+        <div class="glass-card">
+            <div class="card-header">
+                <h2>Claim Information</h2>
+                <div class="toggle-container">
+                    <button class="toggle-btn active" id="form-toggle-btn" onclick="setMode('form')">Form</button>
+                    <button class="toggle-btn" id="json-toggle-btn" onclick="setMode('json')">JSON</button>
+                </div>
+            </div>
+
+            <!-- Form Mode View -->
+            <form id="claim-form" onsubmit="event.preventDefault(); submitClaim();">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="claim_number">Claim Number</label>
+                        <input type="text" id="claim_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="policy_number">Policy Number</label>
+                        <select id="policy_number" required>
+                            <option value="PN-1">PN-1 (Active / Covered)</option>
+                            <option value="PN-2">PN-2 (Active / Covered)</option>
+                            <option value="PN-3">PN-3 (Outstanding Dues)</option>
+                            <option value="PN-4">PN-4 (Active / Covered)</option>
+                            <option value="PN-5">PN-5 (Outstanding Dues)</option>
+                            <option value="PN-6">PN-6 (Active / Covered)</option>
+                            <option value="PN-7">PN-7 (Outstanding Dues)</option>
+                            <option value="PN-8">PN-8 (Active / Covered)</option>
+                            <option value="PN-9">PN-9 (Expired)</option>
+                            <option value="PN-10">PN-10 (Active / Covered)</option>
+                            <option value="PL-1">PL-1 (Not Found)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="claimant_name">Claimant Name</label>
+                        <input type="text" id="claimant_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_loss">Date of Loss</label>
+                        <input type="date" id="date_of_loss" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vehicle_details">Vehicle Details</label>
+                        <input type="text" id="vehicle_details" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estimated_repair_cost">Estimated Repair Cost ($)</label>
+                        <input type="number" id="estimated_repair_cost" step="0.01" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="loss_description">Loss Description</label>
+                    <textarea id="loss_description" rows="3" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submit-btn">
+                    <span>Process Claim with RAG Agent</span>
+                </button>
+            </form>
+
+            <!-- JSON Mode View -->
+            <div id="json-editor-container" style="display: none; flex-direction: column; gap: 20px;">
+                <div class="form-group">
+                    <label for="raw-json-textarea">Raw JSON Input</label>
+                    <textarea class="json-editor" id="raw-json-textarea"></textarea>
+                </div>
+                <button type="button" class="btn-primary" onclick="submitRawJson()">
+                    <span>Process Claim with RAG Agent</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Column: Results & Stepper -->
+        <div class="glass-card">
+            <!-- IDLE STATE -->
+            <div class="state-container active" id="state-idle">
+                <div class="idle-state">
+                    <div class="idle-icon">⚙️</div>
+                    <div class="idle-title">Ready for Input</div>
+                    <div class="idle-text">Enter claim data in the form and click "Process Claim" to start the RAG-enabled agent.</div>
+                </div>
+            </div>
+
+            <!-- LOADING STATE -->
+            <div class="state-container" id="state-loading">
+                <div class="card-header">
+                    <h2>Agent Execution Steps</h2>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 13px; color: var(--text-muted);">Thinking...</span>
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                
+                <div class="stepper">
+                    <div class="step" id="step-parse">
+                        <div class="step-icon">1</div>
+                        <div class="step-info">
+                            <div class="step-title">Parsing Claim Details</div>
+                            <div class="step-desc">Extracting ClaimInfo model fields...</div>
+                        </div>
+                    </div>
+                    <div class="step" id="step-validate">
+                        <div class="step-icon">2</div>
+                        <div class="step-info">
+                            <div class="step-title">Validating Policy Coverage</div>
+                            <div class="step-desc">Checking start/end dates and outstanding dues...</div>
+                        </div>
+                    </div>
+                    <div class="step" id="step-queries">
+                        <div class="step-icon">3</div>
+                        <div class="step-info">
+                            <div class="step-title">Generating Database Queries</div>
+                            <div class="step-desc">Creating targeted search topics...</div>
+                        </div>
+                    </div>
+                    <div class="step" id="step-retrieve">
+                        <div class="step-icon">4</div>
+                        <div class="step-info">
+                            <div class="step-title">Retrieving Policy details (ChromaDB)</div>
+                            <div class="step-desc">Searching embeddings vector database...</div>
+                        </div>
+                    </div>
+                    <div class="step" id="step-price">
+                        <div class="step-icon">5</div>
+                        <div class="step-info">
+                            <div class="step-title">Web Search & Price Reasoning</div>
+                            <div class="step-desc">Verifying repair costs vs local market prices...</div>
+                        </div>
+                    </div>
+                    <div class="step" id="step-recommendation">
+                        <div class="step-icon">6</div>
+                        <div class="step-info">
+                            <div class="step-title">Formulating Recommendation</div>
+                            <div class="step-desc">Drafting initial coverage summary...</div>
+                        </div>
+                    </div>
+                    <div class="step" id="step-finalize">
+                        <div class="step-icon">7</div>
+                        <div class="step-info">
+                            <div class="step-title">Finalizing Decision</div>
+                            <div class="step-desc">Constructing final ClaimDecision object...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULTS STATE -->
+            <div class="state-container" id="state-results">
+                <div class="card-header">
+                    <h2>Final Decision</h2>
+                    <button class="toggle-btn active" onclick="resetApp()">Reset</button>
+                </div>
+
+                <div class="results-state">
+                    <!-- Glowing Decision Card -->
+                    <div class="decision-card" id="final-decision-card">
+                        <div class="decision-badge-container">
+                            <span class="decision-badge" id="coverage-status-badge">CLAIM APPROVED</span>
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;" id="claim-number-title">CLAIM-00001</span>
+                        </div>
+
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <span class="metric-label">Recommended Payout</span>
+                                <span class="metric-value" id="val-payout">$0.00</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Deductible</span>
+                                <span class="metric-value" id="val-deductible">$0.00</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Covered Status</span>
+                                <span class="metric-value" id="val-status">Yes</span>
+                            </div>
+                        </div>
+
+                        <div class="explanation-section" id="val-notes">
+                            No notes available.
+                        </div>
+                    </div>
+
+                    <!-- Monospace Terminal Log Viewer -->
+                    <div class="terminal-container">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="dot dot-red"></div>
+                                <div class="dot dot-yellow"></div>
+                                <div class="dot dot-green"></div>
+                            </div>
+                            <span class="terminal-title">RAG Agent Thoughts & Tool Logs</span>
+                            <button class="terminal-copy-btn" onclick="copyLogs()">Copy Logs</button>
+                        </div>
+                        <pre class="terminal-body" id="terminal-log-body">Initializing...</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Default Ema Johnson JSON dataset
+        const defaultData = {
+            "claim_number": "CLAIM-00001",
+            "policy_number": "PN-1",
+            "claimant_name": "Ema Johnson",
+            "date_of_loss": "2022-01-21",
+            "loss_description": "Rear-ended by another driver at a red light, resulting in bumper damage and mild whiplash.",
+            "estimated_repair_cost": 150.0,
+            "vehicle_details": "2022 Honda City"
+        };
+
+        let activeMode = 'form'; // 'form' or 'json'
+
+        // Prepopulate form on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            resetFormToDefault();
+        });
+
+        function resetFormToDefault() {
+            document.getElementById('claim_number').value = defaultData.claim_number;
+            document.getElementById('policy_number').value = defaultData.policy_number;
+            document.getElementById('claimant_name').value = defaultData.claimant_name;
+            document.getElementById('date_of_loss').value = defaultData.date_of_loss;
+            document.getElementById('vehicle_details').value = defaultData.vehicle_details;
+            document.getElementById('estimated_repair_cost').value = defaultData.estimated_repair_cost;
+            document.getElementById('loss_description').value = defaultData.loss_description;
+            
+            updateJsonTextarea();
+        }
+
+        function updateJsonTextarea() {
+            const currentData = {
+                "claim_number": document.getElementById('claim_number').value,
+                "policy_number": document.getElementById('policy_number').value,
+                "claimant_name": document.getElementById('claimant_name').value,
+                "date_of_loss": document.getElementById('date_of_loss').value,
+                "loss_description": document.getElementById('loss_description').value,
+                "estimated_repair_cost": parseFloat(document.getElementById('estimated_repair_cost').value) || 0.0,
+                "vehicle_details": document.getElementById('vehicle_details').value
+            };
+            document.getElementById('raw-json-textarea').value = JSON.stringify(currentData, null, 2);
+        }
+
+        // Keep form in sync when changing inputs
+        const formInputs = ['claim_number', 'policy_number', 'claimant_name', 'date_of_loss', 'vehicle_details', 'estimated_repair_cost', 'loss_description'];
+        formInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateJsonTextarea);
+        });
+
+        function setMode(mode) {
+            activeMode = mode;
+            if (mode === 'form') {
+                document.getElementById('form-toggle-btn').classList.add('active');
+                document.getElementById('json-toggle-btn').classList.remove('active');
+                document.getElementById('claim-form').style.display = 'flex';
+                document.getElementById('json-editor-container').style.display = 'none';
+                
+                // Sync JSON changes back to form
+                try {
+                    const parsed = JSON.parse(document.getElementById('raw-json-textarea').value);
+                    document.getElementById('claim_number').value = parsed.claim_number || '';
+                    document.getElementById('policy_number').value = parsed.policy_number || 'PN-1';
+                    document.getElementById('claimant_name').value = parsed.claimant_name || '';
+                    document.getElementById('date_of_loss').value = parsed.date_of_loss || '';
+                    document.getElementById('vehicle_details').value = parsed.vehicle_details || '';
+                    document.getElementById('estimated_repair_cost').value = parsed.estimated_repair_cost || '';
+                    document.getElementById('loss_description').value = parsed.loss_description || '';
+                } catch(e) {}
+            } else {
+                document.getElementById('form-toggle-btn').classList.remove('active');
+                document.getElementById('json-toggle-btn').classList.add('active');
+                document.getElementById('claim-form').style.display = 'none';
+                document.getElementById('json-editor-container').style.display = 'flex';
+                updateJsonTextarea();
+            }
+        }
+
+        function showState(state) {
+            document.getElementById('state-idle').classList.remove('active');
+            document.getElementById('state-loading').classList.remove('active');
+            document.getElementById('state-results').classList.remove('active');
+
+            if (state === 'idle') {
+                document.getElementById('state-idle').classList.add('active');
+            } else if (state === 'loading') {
+                document.getElementById('state-loading').classList.add('active');
+            } else if (state === 'results') {
+                document.getElementById('state-results').classList.add('active');
+            }
+        }
+
+        function resetApp() {
+            showState('idle');
+            resetFormToDefault();
+        }
+
+        function submitRawJson() {
+            try {
+                const parsedData = JSON.parse(document.getElementById('raw-json-textarea').value);
+                triggerClaimPipeline(parsedData);
+            } catch (e) {
+                alert("Invalid JSON format. Please correct it before processing.");
+            }
+        }
+
+        function submitClaim() {
+            const currentData = {
+                "claim_number": document.getElementById('claim_number').value,
+                "policy_number": document.getElementById('policy_number').value,
+                "claimant_name": document.getElementById('claimant_name').value,
+                "date_of_loss": document.getElementById('date_of_loss').value,
+                "loss_description": document.getElementById('loss_description').value,
+                "estimated_repair_cost": parseFloat(document.getElementById('estimated_repair_cost').value) || 0.0,
+                "vehicle_details": document.getElementById('vehicle_details').value
+            };
+            triggerClaimPipeline(currentData);
+        }
+
+        function updateLoadingStepper(logs) {
+            // Animate stepper based on keyword detections in captured stdout logs
+            const steps = [
+                { id: 'step-parse', keyword: 'parse_claim' },
+                { id: 'step-validate', keyword: 'is_valid_query' },
+                { id: 'step-queries', keyword: 'generate_policy_queries' },
+                { id: 'step-retrieve', keyword: 'retrieve_policy_text' },
+                { id: 'step-price', keyword: 'web_search' },
+                { id: 'step-recommendation', keyword: 'generate_recommendation' },
+                { id: 'step-finalize', keyword: 'finalize_decision' }
+            ];
+
+            let activeIndex = -1;
+            steps.forEach((step, idx) => {
+                const el = document.getElementById(step.id);
+                if (logs.toLowerCase().includes(step.keyword.toLowerCase())) {
+                    el.className = 'step completed';
+                    activeIndex = idx;
+                } else {
+                    el.className = 'step';
+                }
+            });
+
+            // Mark the next step as active if the previous one is completed
+            if (activeIndex < steps.length - 1) {
+                const nextStepEl = document.getElementById(steps[activeIndex + 1].id);
+                nextStepEl.className = 'step active';
+            }
+        }
+
+        function triggerClaimPipeline(payload) {
+            showState('loading');
+            
+            // Reset stepper styles
+            document.querySelectorAll('.step').forEach((el, index) => {
+                el.className = index === 0 ? 'step active' : 'step';
+            });
+
+            let simulatedStepLogs = "";
+            
+            // Simulated loading stepper animation to keep UI responsive
+            const simulatedLogs = [
+                "[INSIDE TOOL]: parse_claim",
+                "[INSIDE TOOL]: is_valid_query",
+                "[INSIDE TOOL]: generate_policy_queries",
+                "[INSIDE TOOL]: retrieve_policy_text",
+                "[INSIDE TOOL]: web_search",
+                "[INSIDE TOOL]: generate_recommendation",
+                "[INSIDE TOOL]: finalize_decision"
+            ];
+            
+            let logTimerIdx = 0;
+            const logInterval = setInterval(() => {
+                if (logTimerIdx < simulatedLogs.length) {
+                    simulatedStepLogs += "\n" + simulatedLogs[logTimerIdx];
+                    updateLoadingStepper(simulatedStepLogs);
+                    logTimerIdx++;
+                } else {
+                    clearInterval(logInterval);
+                }
+            }, 1200);
+
+            fetch('/api/process_claim', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                clearInterval(logInterval);
+                if (data.success) {
+                    displayResults(data.decision, data.logs);
+                } else {
+                    alert("Error processing claim: " + data.error);
+                    showState('idle');
+                }
+            })
+            .catch(err => {
+                clearInterval(logInterval);
+                alert("Failed to connect to the backend server. Make sure the Flask server is running.");
+                showState('idle');
+            });
+        }
+
+        function displayResults(decision, logs) {
+            showState('results');
+
+            // Set decision card styles and details
+            const card = document.getElementById('final-decision-card');
+            const badge = document.getElementById('coverage-status-badge');
+            
+            document.getElementById('claim-number-title').innerText = decision.claim_number || "CLAIM-UNKNOWN";
+            document.getElementById('val-payout').innerText = "$" + (decision.recommended_payout || 0).toFixed(2);
+            document.getElementById('val-deductible').innerText = "$" + (decision.deductible || 0).toFixed(2);
+            document.getElementById('val-status').innerText = decision.covered ? "Yes" : "No";
+            document.getElementById('val-notes').innerText = decision.notes || "No additional notes provided by the agent.";
+
+            if (decision.covered) {
+                card.className = "decision-card approved";
+                badge.innerText = "CLAIM APPROVED";
+            } else {
+                card.className = "decision-card denied";
+                badge.innerText = "CLAIM DENIED";
+            }
+
+            // Load terminal logs
+            document.getElementById('terminal-log-body').innerText = logs || "No terminal logs captured.";
+        }
+
+        function copyLogs() {
+            const logsText = document.getElementById('terminal-log-body').innerText;
+            navigator.clipboard.writeText(logsText).then(() => {
+                alert("Agent reasoning logs copied to clipboard!");
+            });
+        }
+    </script>
+</body>
+</html>
